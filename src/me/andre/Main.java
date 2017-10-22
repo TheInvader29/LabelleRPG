@@ -1,20 +1,20 @@
 package me.andre;
 
+import me.andre.events.AsyncPlayerChatEvent_Listener;
+import me.andre.events.PlayerJoinEvent_Listener;
 import me.andre.utils.ConfigUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerInteractAtEntityEvent;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 
-public class Main extends JavaPlugin implements Listener{
+public class Main extends JavaPlugin {
+
+    public static File location = new File("plugins/LabelleRPG", "location.yml");
+    public static FileConfiguration LocationYML = YamlConfiguration.loadConfiguration(location);
 
     public static File config = new File("plugins/LabelleRPG", "config.yml");
     public static FileConfiguration ConfigYML = YamlConfiguration.loadConfiguration(config);
@@ -24,19 +24,17 @@ public class Main extends JavaPlugin implements Listener{
     @Override
     public void onEnable() {
         registerEvents();
-        ConfigUtils.saveConfig();
+        registerCommands();
+
+        ConfigUtils.defaultLocationConfig();
+        ConfigUtils.defaultConfig();
     }
 
     public void registerEvents(){
-        pm.registerEvents(this, this);
+        pm.registerEvents(new AsyncPlayerChatEvent_Listener(), this);
+        pm.registerEvents(new PlayerJoinEvent_Listener(), this);
     }
 
-    @EventHandler
-    public void onPlayerRightClick(PlayerInteractAtEntityEvent e){
-        Entity ent = e.getRightClicked();
-        if(ent.getType().equals(EntityType.COW)){
-            ent.setVelocity(ent.getVelocity().multiply(4));
-        }
-        return;
+    public void registerCommands(){
     }
 }

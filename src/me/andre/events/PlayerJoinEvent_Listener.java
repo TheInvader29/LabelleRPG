@@ -1,5 +1,6 @@
 package me.andre.events;
 
+import me.andre.api.LocationAPI;
 import me.andre.utils.TextUtils;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -15,6 +16,8 @@ public class PlayerJoinEvent_Listener implements Listener {
         e.setJoinMessage(null);
 
         joinMessage(p);
+
+        LocationAPI.teleportToSpawn(p);
     }
 
     public void joinMessage(Player p){
@@ -23,8 +26,8 @@ public class PlayerJoinEvent_Listener implements Listener {
         }
         p.sendMessage(" §m+-------------------------------------------------+");
         p.sendMessage(" ");
-        p.sendMessage("                                 " + TextUtils.serverName);
-        p.sendMessage("           §7Welcome to the server, §e§l" + p.getName());
+        p.sendMessage("                                    " + TextUtils.serverName);
+        p.sendMessage("              §7Welcome to the server, §e§l" + p.getName());
         p.sendMessage(" ");
         p.sendMessage(" §m+-------------------------------------------------+");
         p.sendMessage(" ");
